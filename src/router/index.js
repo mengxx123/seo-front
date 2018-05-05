@@ -7,6 +7,7 @@ const Dns = resolve => require(['@/views/Dns'], resolve)
 const DnsHelp = resolve => require(['@/views/DnsHelp'], resolve)
 const Whois = resolve => require(['@/views/Whois'], resolve)
 const WhoisHelp = resolve => require(['@/views/WhoisHelp'], resolve)
+const Icp = resolve => require(['@/views/Icp'], resolve)
 const About = resolve => require(['@/views/About'], resolve)
 
 const Error404 = resolve => require(['@/views/error/Error404'], resolve)
@@ -37,6 +38,10 @@ let routes = [
     {
         path: '/whois/help',
         component: WhoisHelp
+    },
+    {
+        path: '/icp',
+        component: Icp
     },
     {
         path: '/about',
