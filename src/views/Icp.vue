@@ -77,7 +77,7 @@
             }
         },
         mounted() {
-             this.debug()
+            //  this.debug()
         },
         methods: {
             debug() {
@@ -86,7 +86,10 @@
             },
             query() {
                 if (!this.domain) {
-                    alert('请输入域名')
+                    this.$message({
+                        type: 'danger',
+                        text: '请输入域名'
+                    })
                     return
                 }
                 this.result = null

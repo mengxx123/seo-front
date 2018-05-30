@@ -32,9 +32,13 @@
         methods: {
             query() {
                 if (!this.domain) {
-                    alert('请输入域名')
+                    this.$message({
+                        type: 'danger',
+                        text: '请输入域名'
+                    })
                     return
                 }
+                this.result = ''
                 this.$http.get('/whois.php?domain=' + this.domain).then(
                     response => {
                         let data = response.data
