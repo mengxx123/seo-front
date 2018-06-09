@@ -8,7 +8,15 @@
         <div class="ui-loading" v-if="loading">
             <ui-circular-progress :size="24"/>
         </div>
-        <pre class="result">{{ result }}</pre>
+        <ui-article v-if="result">
+            <table>
+                <tr v-for="info in infos">
+                    <th>{{ info.key }}</th>
+                    <td>{{ info.value }}</td>
+                </tr>
+            </table>
+            <pre class="result">{{ result }}</pre>
+        </ui-article>
     </my-page>
 </template>
 
@@ -20,6 +28,7 @@
                 loading: false,
                 domain: '',
                 result: '',
+                infos: [],
                 page: {
                     menu: [
                         {
@@ -40,6 +49,20 @@
             // this.query()
         },
         methods: {
+            deal(content) {
+                content = content.split('>>>')[0]
+                let arr = content.split('\n')
+                arr = arr.filter(item => item.length)
+                let ret = []
+                for (let item of arr) {
+                    let index = item.indexOf(':')
+                    ret.push({
+                        key: item.substring(0, index).replace(/^\s+/, '').replace(/\s+$/, ''),
+                        value: item.substring(index + 1, item.length).replace(/^\s+/, '').replace(/\s+$/, '')
+                    })
+                }
+                return ret
+            },
             query() {
                 if (!this.domain) {
                     this.$message({
@@ -54,6 +77,7 @@
                     response => {
                         let data = response.data
                         this.result = data
+                        this.infos = this.deal(this.result)
                         this.loading = false
                     },
                     response => {
