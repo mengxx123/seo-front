@@ -7,6 +7,9 @@
             <ui-raised-button label="查询" primary @click="query" />
         </div>
 
+        <div class="ui-loading" v-if="loading">
+            <ui-circular-progress :size="24"/>
+        </div>
         <ui-article class="result" v-if="result">
             <table>
                 <!--<tr>-->
@@ -62,6 +65,7 @@
     export default {
         data () {
             return {
+                loading: false,
                 domain: '',
                 result: '',
                 page: {
@@ -77,6 +81,11 @@
             }
         },
         mounted() {
+            let data = this.$route.query.data
+            if (data) {
+                this.domain = data
+                this.query()
+            }
             //  this.debug()
         },
         methods: {
@@ -94,15 +103,18 @@
                 }
                 this.result = null
                 this.error = null
+                this.loading = true
                 this.$http.get(apiDomain2 + '/icp?domain=' + this.domain).then(
                     response => {
                         let data = response.data
                         console.log(data)
                         this.result = data
+                        this.loading = false
                     },
                     response => {
                         this.error = '服务器出错！'
                         console.log(response)
+                        this.loading = false
                     })
             }
         }

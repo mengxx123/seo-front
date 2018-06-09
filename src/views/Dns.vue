@@ -14,7 +14,9 @@
         <div class="btns">
             <ui-raised-button label="查询" primary @click="query" />
         </div>
-
+        <div class="ui-loading" v-if="loading">
+            <ui-circular-progress :size="24"/>
+        </div>
         <ui-article>
             <table v-if="result">
                 <tr>
@@ -54,8 +56,9 @@
     export default {
         data () {
             return {
+                loading: false,
                 domain: '',
-                type: 'ns',
+                type: 'a',
                 result: null,
                 error: '',
                 page: {
@@ -70,6 +73,12 @@
             }
         },
         mounted() {
+            let data = this.$route.query.data
+            if (data) {
+                this.domain = data
+                this.type = this.$route.query.type || 'a'
+                this.query()
+            }
             // this.debug()
         },
         methods: {
@@ -80,9 +89,13 @@
             },
             query() {
                 if (!this.domain) {
-                    alert('请输入域名')
+                    this.$message({
+                        type: 'danger',
+                        text: '请输入域名'
+                    })
                     return
                 }
+                this.loading = true
                 this.result = null
                 this.error = null
                 this.$http.get(`dns.php?q=${this.domain}&t=${this.type}`).then(
@@ -90,11 +103,13 @@
                         let data = response.data
                         console.log(data)
                         this.result = data
+                        this.loading = false
                     },
                     response => {
                         console.log('错误')
                         this.error = '没有相关记录!'
                         console.log(response)
+                        this.loading = false
                     })
             }
         }
