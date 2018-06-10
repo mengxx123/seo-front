@@ -108,6 +108,11 @@
                     response => {
                         let data = response.data
                         console.log(data)
+                        if (data.type === 300) {
+                            this.error = data.message
+                            this.loading = false
+                            return
+                        }
                         this.result = data
                         this.loading = false
                     },
