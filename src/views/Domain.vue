@@ -1,6 +1,6 @@
 <template>
-    <my-page title="域名 WHOIS 查询" :page="page">
-        <ui-text-field v-model="domain" label="域名" hintText="yunser.com" />
+    <my-page title="域名注册查询" :page="page">
+        <ui-text-field v-model="domain" label="域名" hintText="nicetool.net" />
         <br>
         <div class="btns">
             <ui-raised-button class="btn" label="查询" primary @click="query" />
@@ -10,12 +10,15 @@
         </div>
         <ui-article v-if="result">
             <table>
-                <tr v-for="info in infos">
-                    <th>{{ translate(info.key) }}</th>
-                    <td>{{ info.value }}</td>
+                <tr v-for="domain in domains">
+                    <th>{{ domain.name }}</th>
+                    <td>
+                        <span v-if="domain.loading">加载中...</span>
+                        <span v-if="domain.registered === true">已注册</span>
+                        <span v-if="domain.registered === false">未注册</span>
+                    </td>
                 </tr>
             </table>
-            <pre class="result">{{ result }}</pre>
         </ui-article>
     </my-page>
 </template>
@@ -29,7 +32,7 @@
                 loading: false,
                 domain: '',
                 result: '',
-                infos: [],
+                domains: [],
                 page: {
                     menu: [
                         {
@@ -48,7 +51,6 @@
                 this.query()
             }
             // this.query()
-            // debug
             // this.domain = 'yunser.com'
             // this.query()
         },
@@ -75,48 +77,37 @@
                     })
                     return
                 }
-                this.loading = true
-                this.result = ''
-                this.$http.get('/whois.php?domain=' + this.domain).then(
-                    response => {
-                        let data = response.data
-                        this.result = data
-                        this.infos = this.deal(this.result)
-                        this.loading = false
-                    },
-                    response => {
-                        console.log(response)
-                        this.loading = false
+                // this.loading = true
+                let prefix = this.domain.split('.')[0]
+                let types = ['com', 'cn', 'net', 'top', 'org', 'wang', 'vip']
+                this.result = true
+                // this.domains = []
+                for (let i = 0; i < types.length; i++) {
+                    console.log('循环', this.domains)
+                    this.domains.push({
+                        name: prefix + '.' + types[i],
+                        loading: true
                     })
-            },
-            translate(en) {
-                switch (en) {
-                    case 'Domain Name':
-                        return '域名'
-                    case 'Name Server':
-                        return 'DNS 服务器'
-                    case 'Updated Date':
-                        return '更新日期'
-                    case 'Creation Date':
-                        return '注册日期'
-                    case 'Registry Expiry Date':
-                        return '过期日期'
-                    case 'Domain Status':
-                        return '域名状态'
-                    case 'Registrar URL':
-                        return '注册商网址'
-                    case 'Registrar WHOIS Server':
-                        return '注册商 WHOIS 服务器'
-                    case 'Registrar URL':
-                        return '注册商网址'
-                    case 'Registrar Abuse Contact Email':
-                        return '注册商联系邮箱'
-                    case 'Registrar Abuse Contact Phone':
-                        return '注册商联系电话'
-                    case 'Registrar':
-                        return '注册商'
                 }
-                return en
+                for (let i = 0; i < types.length; i++) {
+                    (() => {
+                        this.$http.get('/whois.php?domain=' + prefix + '.' + types[i]).then(
+                        response => {
+                            let data = response.data
+                            if (data.includes('NOT FOUND')) {
+                                this.domains[i].registered = false
+                            } else {
+                                this.domains[i].registered = true
+                            }
+                            this.domains[i].loading = false
+                        },
+                        response => {
+                            console.log(response)
+                            this.loading = false
+                        })
+                    })(i)
+                }
+                
             }
         }
     }

@@ -9,6 +9,9 @@
                 <ui-list-item title="DNS 工具" to="/dns">
                     <ui-icon slot="left" value="grade"/>
                 </ui-list-item>
+                <ui-list-item title="域名注册查询" to="/domain">
+                    <ui-icon slot="left" value="grade"/>
+                </ui-list-item>
                 <ui-list-item title="Whois 查询" to="/whois">
                     <ui-icon slot="left" value="grade"/>
                 </ui-list-item>
