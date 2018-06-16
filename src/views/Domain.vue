@@ -14,8 +14,8 @@
                     <th>{{ domain.name }}</th>
                     <td>
                         <span v-if="domain.loading">加载中...</span>
-                        <span v-if="domain.registered === true">已注册</span>
-                        <span v-if="domain.registered === false">未注册</span>
+                        <ui-badge content="已注册" color="#777" v-if="domain.registered === true" />
+                        <ui-badge content="未注册" color="#5cb85c" v-if="domain.registered === false" />
                     </td>
                 </tr>
             </table>
