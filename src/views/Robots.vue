@@ -369,7 +369,9 @@
                         {
                             type: 'icon',
                             icon: 'help',
-                            to: '/robots/help'
+                            href: 'https://project.yunser.com/products/15489fc00d9511e99f2863e9d9681573',
+                            target: '_blank',
+                            title: '帮助'
                         }
                     ]
                 }

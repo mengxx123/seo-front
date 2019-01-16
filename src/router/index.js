@@ -1,16 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+const Home = resolve => require(['@/views/Home'], resolve)
+const Seo = resolve => require(['@/views/Seo'], resolve)
 const Robots = resolve => require(['@/views/Robots'], resolve)
-const RobotsHelp = resolve => require(['@/views/RobotsHelp'], resolve)
 const Dns = resolve => require(['@/views/Dns'], resolve)
-const DnsHelp = resolve => require(['@/views/DnsHelp'], resolve)
 const Whois = resolve => require(['@/views/Whois'], resolve)
-const WhoisHelp = resolve => require(['@/views/WhoisHelp'], resolve)
 const Icp = resolve => require(['@/views/Icp'], resolve)
 const Domain = resolve => require(['@/views/Domain'], resolve)
-const About = resolve => require(['@/views/About'], resolve)
-
+const RobotsCheck = resolve => require(['@/views/RobotsCheck'], resolve)
+const Log = resolve => require(['@/views/Log'], resolve)
+const Search = resolve => require(['@/views/Search'], resolve)
 const Error404 = resolve => require(['@/views/error/Error404'], resolve)
 
 Vue.use(Router)
@@ -18,27 +18,31 @@ Vue.use(Router)
 let routes = [
     {
         path: '/',
+        component: Home
+    },
+    {
+        path: '/search',
+        component: Search
+    },
+    {
+        path: '/seo',
+        component: Seo
+    },
+    {
+        path: '/robots',
         component: Robots
     },
     {
-        path: '/robots/help',
-        component: RobotsHelp
+        path: '/robots/check',
+        component: RobotsCheck
     },
     {
         path: '/dns',
         component: Dns
     },
     {
-        path: '/dns/help',
-        component: DnsHelp
-    },
-    {
         path: '/whois',
         component: Whois
-    },
-    {
-        path: '/whois/help',
-        component: WhoisHelp
     },
     {
         path: '/icp',
@@ -49,8 +53,8 @@ let routes = [
         component: Domain
     },
     {
-        path: '/about',
-        component: About
+        path: '/log',
+        component: Log
     },
     {
         path: '*',

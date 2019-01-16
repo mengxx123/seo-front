@@ -1,7 +1,7 @@
 <template>
     <my-page title="ICP 备案查询" :page="page">
 
-        <ui-text-field v-model="domain" label="域名" hintText="yunser.com" />
+        <ui-text-field v-model="domain" label="域名" hintText="xxx.com" />
         <br>
         <div class="btns">
             <ui-raised-button label="查询" primary @click="query" />
@@ -73,7 +73,9 @@
                         {
                             type: 'icon',
                             icon: 'help',
-                            to: '/whois/help'
+                            href: 'https://project.yunser.com/products/5123f2000d9111e9b4c16f0404983c51',
+                            target: '_blank',
+                            title: '帮助'
                         }
                     ]
                 },

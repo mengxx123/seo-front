@@ -1,5 +1,5 @@
 <template>
-    <my-page title="DNS检测/查询记录" :page="page">
+    <my-page title="域名综合查询" :page="page">
         <ui-text-field v-model="domain" label="域名" hintText="比如：yunser.com" />
         <br>
         <div style="margin-top:10px">
@@ -57,18 +57,18 @@
         data () {
             return {
                 loading: false,
-                domain: '',
+                domain: 'yunser.com',
                 type: 'a',
                 result: null,
                 error: '',
                 page: {
                     menu: [
                         {
-                            type: 'icon',
-                            icon: 'help',
-                            href: 'https://project.yunser.com/products/fa1674800d9311e99f2863e9d9681573',
-                            target: '_blank',
-                            title: '帮助'
+                            // type: 'icon',
+                            // icon: 'help',
+                            // href: 'https://project.yunser.com/products/fa1674800d9311e99f2863e9d9681573',
+                            // target: '_blank',
+                            // title: '帮助'
                         }
                     ]
                 }
