@@ -148,7 +148,7 @@
                     let arr3 = trim(match[3]).split(/\s+/)
                     if (arr2[0] !== 'HEAD' && arr2[0] !== 'GET' && arr2[0] !== 'POST' && arr2[0] !== 'OPTIONS') {
                         console.log('异常', line, match)
-                        return
+                        continue
                     }
                     result.push({
                         ip: arr[0],
