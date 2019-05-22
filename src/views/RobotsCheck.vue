@@ -1,30 +1,32 @@
 <template>
     <my-page title="robots.txt 检测" :page="page">
-        <ui-text-field v-model="domain" label="网址" hintText="http(s)://xxx.xxx" />
-        <br>
-        <div class="btns">
-            <ui-raised-button class="btn" label="查询" primary @click="query" />
+        <div class="common-container container">
+            <ui-text-field v-model="domain" label="网址" hintText="http(s)://xxx.xxx" />
+            <br>
+            <div class="btns">
+                <ui-raised-button class="btn" label="查询" primary @click="query" />
+            </div>
+            <div class="ui-loading" v-if="loading">
+                <ui-circular-progress :size="24"/>
+            </div>
+            <div v-if="result === -1">没有找到 robots.txt</div>
+            <ui-article v-if="result && result !== -1">
+                <pre class="result">{{ result }}</pre>
+                <h2>详细信息</h2>
+                <table>
+                    <tr>
+                        <th>规则</th>
+                        <th>解析</th>
+                        <th>有效</th>
+                    </tr>
+                    <tr v-for="info in infos">
+                        <th>{{ translate(info.key) }}</th>
+                        <td>{{ info.value }}</td>
+                        <td>是</td>
+                    </tr>
+                </table>
+            </ui-article>
         </div>
-        <div class="ui-loading" v-if="loading">
-            <ui-circular-progress :size="24"/>
-        </div>
-        <div v-if="result === -1">没有找到 robots.txt</div>
-        <ui-article v-if="result && result !== -1">
-            <pre class="result">{{ result }}</pre>
-            <h2>详细信息</h2>
-            <table>
-                <tr>
-                    <th>规则</th>
-                    <th>解析</th>
-                    <th>有效</th>
-                </tr>
-                <tr v-for="info in infos">
-                    <th>{{ translate(info.key) }}</th>
-                    <td>{{ info.value }}</td>
-                    <td>是</td>
-                </tr>
-            </table>
-        </ui-article>
     </my-page>
 </template>
 

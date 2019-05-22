@@ -1,41 +1,43 @@
 <template>
     <my-page title="域名综合查询" :page="page">
-        <ui-text-field v-model="domain" label="域名" hintText="比如：yunser.com" />
-        <br>
-        <div style="margin-top:10px">
-            <label class="type">查询类型：</label>
-            <ui-radio class="radio" v-model="type" label="NS记录" name="group" nativeValue="ns"/>
-            <ui-radio class="radio" v-model="type" label="A记录" name="group" nativeValue="a"/>
-            <ui-radio class="radio" v-model="type" label="CNAME记录" name="group" nativeValue="cname"/>
-            <ui-radio class="radio" v-model="type" label="MX记录" name="group" nativeValue="mx"/>
-            <ui-radio class="radio" v-model="type" label="TXT记录" name="group" nativeValue="txt"/>
-            <ui-radio class="radio" v-model="type" label="AAAA记录" name="group" nativeValue="aaaa"/>
-		</div>
-        <div class="btns">
-            <ui-raised-button label="查询" primary @click="query" />
+        <div class="common-container container">
+            <ui-text-field v-model="domain" label="域名" hintText="比如：yunser.com" />
+            <br>
+            <div style="margin-top:10px">
+                <label class="type">查询类型：</label>
+                <ui-radio class="radio" v-model="type" label="NS记录" name="group" nativeValue="ns"/>
+                <ui-radio class="radio" v-model="type" label="A记录" name="group" nativeValue="a"/>
+                <ui-radio class="radio" v-model="type" label="CNAME记录" name="group" nativeValue="cname"/>
+                <ui-radio class="radio" v-model="type" label="MX记录" name="group" nativeValue="mx"/>
+                <ui-radio class="radio" v-model="type" label="TXT记录" name="group" nativeValue="txt"/>
+                <ui-radio class="radio" v-model="type" label="AAAA记录" name="group" nativeValue="aaaa"/>
+            </div>
+            <div class="btns">
+                <ui-raised-button label="查询" primary @click="query" />
+            </div>
+            <div class="ui-loading" v-if="loading">
+                <ui-circular-progress :size="24"/>
+            </div>
+            <ui-article>
+                <table v-if="result">
+                    <tr>
+                        <th>记录类型</th>
+                        <th>主机记录</th>
+                        <th>记录值</th>
+                        <th v-if="type === 'ms'">MX优先级</th>
+                        <th title="生存时间">TTL</th>
+                    </tr>
+                    <tr v-for="item in result">
+                        <td>{{ item.type }} 记录</td>
+                        <td>{{ item.host }}</td>
+                        <td>{{ item.target || item.ip }}</td>
+                        <td v-if="type === 'ms'">{{ item.pri || '-' }}</td>
+                        <td>{{ item.ttl }}</td>
+                    </tr>
+                </table>
+                <p v-if="error">{{ error }}</p>
+            </ui-article>
         </div>
-        <div class="ui-loading" v-if="loading">
-            <ui-circular-progress :size="24"/>
-        </div>
-        <ui-article>
-            <table v-if="result">
-                <tr>
-                    <th>记录类型</th>
-                    <th>主机记录</th>
-                    <th>记录值</th>
-                    <th v-if="type === 'ms'">MX优先级</th>
-                    <th title="生存时间">TTL</th>
-                </tr>
-                <tr v-for="item in result">
-                    <td>{{ item.type }} 记录</td>
-                    <td>{{ item.host }}</td>
-                    <td>{{ item.target || item.ip }}</td>
-                    <td v-if="type === 'ms'">{{ item.pri || '-' }}</td>
-                    <td>{{ item.ttl }}</td>
-                </tr>
-            </table>
-            <p v-if="error">{{ error }}</p>
-        </ui-article>
 
         <!-- <tr style="background-color:#FFFFFF;text-align:center;padding:5px">
 				<td colspan="5">

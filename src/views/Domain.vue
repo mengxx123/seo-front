@@ -1,28 +1,30 @@
 <template>
     <my-page title="域名注册查询" :page="page">
-        <ui-text-field v-model="domain" label="域名" hintText="yunser.com" />
-        <br>
-        <div class="btns">
-            <ui-raised-button class="btn" label="查询" primary @click="query" />
+        <div class="common-container container">
+            <ui-text-field v-model="domain" label="域名" hintText="yunser.com" />
+            <br>
+            <div class="btns">
+                <ui-raised-button class="btn" label="查询" primary @click="query" />
+            </div>
+            <div class="ui-loading" v-if="loading">
+                <ui-circular-progress :size="24"/>
+            </div>
+            <ui-article v-if="result">
+                <table>
+                    <tr v-for="domain in domains">
+                        <th v-if="domain.registered === true">
+                            <router-link :to="`/whois?data=` + domain.name">{{ domain.name }}</router-link>
+                        </th>
+                        <th v-if="domain.registered === false">{{ domain.name }}</th>
+                        <td>
+                            <span v-if="domain.loading">加载中...</span>
+                            <ui-badge content="已注册" color="#777" v-if="domain.registered === true" />
+                            <ui-badge content="未注册" color="#5cb85c" v-if="domain.registered === false" />
+                        </td>
+                    </tr>
+                </table>
+            </ui-article>
         </div>
-        <div class="ui-loading" v-if="loading">
-            <ui-circular-progress :size="24"/>
-        </div>
-        <ui-article v-if="result">
-            <table>
-                <tr v-for="domain in domains">
-                    <th v-if="domain.registered === true">
-                        <router-link :to="`/whois?data=` + domain.name">{{ domain.name }}</router-link>
-                    </th>
-                    <th v-if="domain.registered === false">{{ domain.name }}</th>
-                    <td>
-                        <span v-if="domain.loading">加载中...</span>
-                        <ui-badge content="已注册" color="#777" v-if="domain.registered === true" />
-                        <ui-badge content="未注册" color="#5cb85c" v-if="domain.registered === false" />
-                    </td>
-                </tr>
-            </table>
-        </ui-article>
         <ui-float-button class="float-button" icon="more_horiz" @click="open = true"/>
         <ui-drawer class="setting-box" right :open="open" @close="toggle()">
             <ui-appbar title="设置">

@@ -1,22 +1,24 @@
 <template>
     <my-page title="Whois 查询" :page="page">
-        <ui-text-field v-model="domain" label="域名" hintText="yunser.com" />
-        <br>
-        <div class="btns">
-            <ui-raised-button class="btn" label="查询" primary @click="query" />
+        <div class="common-container container">
+            <ui-text-field v-model="domain" label="域名" hintText="yunser.com" />
+            <br>
+            <div class="btns">
+                <ui-raised-button class="btn" label="查询" primary @click="query" />
+            </div>
+            <div class="ui-loading" v-if="loading">
+                <ui-circular-progress :size="24"/>
+            </div>
+            <ui-article v-if="result">
+                <table>
+                    <tr v-for="info in infos">
+                        <th>{{ translate(info.key) }}</th>
+                        <td>{{ info.value }}</td>
+                    </tr>
+                </table>
+                <pre class="result">{{ result }}</pre>
+            </ui-article>
         </div>
-        <div class="ui-loading" v-if="loading">
-            <ui-circular-progress :size="24"/>
-        </div>
-        <ui-article v-if="result">
-            <table>
-                <tr v-for="info in infos">
-                    <th>{{ translate(info.key) }}</th>
-                    <td>{{ info.value }}</td>
-                </tr>
-            </table>
-            <pre class="result">{{ result }}</pre>
-        </ui-article>
     </my-page>
 </template>
 

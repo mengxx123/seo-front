@@ -1,60 +1,61 @@
 <template>
     <my-page title="ICP 备案查询" :page="page">
+        <div class="common-container container">
+            <ui-text-field v-model="domain" label="域名" hintText="xxx.com" />
+            <br>
+            <div class="btns">
+                <ui-raised-button label="查询" primary @click="query" />
+            </div>
 
-        <ui-text-field v-model="domain" label="域名" hintText="xxx.com" />
-        <br>
-        <div class="btns">
-            <ui-raised-button label="查询" primary @click="query" />
+            <div class="ui-loading" v-if="loading">
+                <ui-circular-progress :size="24"/>
+            </div>
+            <ui-article class="result" v-if="result">
+                <table>
+                    <!--<tr>-->
+                        <!--<th>备案编号</th>-->
+                        <!--<td></td>-->
+                    <!--</tr>-->
+                    <tr>
+                        <th class="title center" colspan="2">ICP 备案主体信息</th>
+                    </tr>
+                    <tr>
+                        <th class="title">备案/许可证号</th>
+                        <td>{{ result.icp || result.nowIcp }}</td>
+                    </tr>
+                    <tr>
+                        <th class="title">审核通过时间</th>
+                        <td>{{ result.checkDate }}</td>
+                    </tr>
+                    <tr>
+                        <th class="title">主办单位名称</th>
+                        <td>{{ result.name }}</td>
+                    </tr>
+                    <tr>
+                        <th class="title">主办单位性质</th>
+                        <td>{{ result.nature }}</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th class="title center" colspan="2">ICP 备案网站信息</th>
+                    </tr>
+                    <tr>
+                        <th class="title">网站名称</th>
+                        <td>{{ result.sitename }}</td>
+                    </tr>
+                    <tr>
+                        <th class="title">网站首页网址</th>
+                        <td>{{ result.indexUrl }}</td>
+                    </tr>
+                    <tr>
+                        <th class="title">备案/许可证号</th>
+                        <td>{{ result.nowIcp }}</td>
+                    </tr>
+                </table>
+            </ui-article>
+            <div v-if="error">{{ error }}</div>
         </div>
-
-        <div class="ui-loading" v-if="loading">
-            <ui-circular-progress :size="24"/>
-        </div>
-        <ui-article class="result" v-if="result">
-            <table>
-                <!--<tr>-->
-                    <!--<th>备案编号</th>-->
-                    <!--<td></td>-->
-                <!--</tr>-->
-                <tr>
-                    <th class="title center" colspan="2">ICP 备案主体信息</th>
-                </tr>
-                <tr>
-                    <th class="title">备案/许可证号</th>
-                    <td>{{ result.icp || result.nowIcp }}</td>
-                </tr>
-                <tr>
-                    <th class="title">审核通过时间</th>
-                    <td>{{ result.checkDate }}</td>
-                </tr>
-                <tr>
-                    <th class="title">主办单位名称</th>
-                    <td>{{ result.name }}</td>
-                </tr>
-                <tr>
-                    <th class="title">主办单位性质</th>
-                    <td>{{ result.nature }}</td>
-                </tr>
-            </table>
-            <table>
-                <tr>
-                    <th class="title center" colspan="2">ICP 备案网站信息</th>
-                </tr>
-                <tr>
-                    <th class="title">网站名称</th>
-                    <td>{{ result.sitename }}</td>
-                </tr>
-                <tr>
-                    <th class="title">网站首页网址</th>
-                    <td>{{ result.indexUrl }}</td>
-                </tr>
-                <tr>
-                    <th class="title">备案/许可证号</th>
-                    <td>{{ result.nowIcp }}</td>
-                </tr>
-            </table>
-        </ui-article>
-        <div v-if="error">{{ error }}</div>
     </my-page>
 </template>
 

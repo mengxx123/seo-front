@@ -1,87 +1,89 @@
 <template>
     <my-page title="Nginx 访问日志分析" :page="page">
-        <ui-raised-button class="file-select-btn" label="上传日志文件" primary>
-            <input type="file" class="ui-file-button" @change="fileChange($event)">
-        </ui-raised-button>
-        <!-- <div class="btns">
-            <ui-raised-button label="解析" primary @click="query" />
-        </div> -->
-        <ui-article>
-            <h2>请求耗时</h2>
-            <table>
-                <tr>
-                    <th>响应时间</th>
-                    <th>访问次数</th>
-                    <th>比例</th>
-                </tr>
-                <tr v-for="item in time">
-                    <td>{{ item.name | responseTime }}</td>
-                    <td>{{ item.times }}</td>
-                    <td>{{ item.percent }}%</td>
-                </tr>
-            </table>
+        <div class="common-container container">
+            <ui-raised-button class="file-select-btn" label="上传日志文件" primary>
+                <input type="file" class="ui-file-button" @change="fileChange($event)">
+            </ui-raised-button>
+            <!-- <div class="btns">
+                <ui-raised-button label="解析" primary @click="query" />
+            </div> -->
+            <ui-article>
+                <h2>请求耗时</h2>
+                <table>
+                    <tr>
+                        <th>响应时间</th>
+                        <th>访问次数</th>
+                        <th>比例</th>
+                    </tr>
+                    <tr v-for="item in time">
+                        <td>{{ item.name | responseTime }}</td>
+                        <td>{{ item.times }}</td>
+                        <td>{{ item.percent }}%</td>
+                    </tr>
+                </table>
 
-            <h2>状态码</h2>
-            <table>
-                <tr>
-                    <th>状态码</th>
-                    <th>访问次数</th>
-                    <th>比例</th>
-                </tr>
-                <tr v-for="item in statusCode">
-                    <td>{{ item.statusCode }}</td>
-                    <td>{{ item.times }}</td>
-                    <td>{{ item.percent }}%</td>
-                </tr>
-            </table>
+                <h2>状态码</h2>
+                <table>
+                    <tr>
+                        <th>状态码</th>
+                        <th>访问次数</th>
+                        <th>比例</th>
+                    </tr>
+                    <tr v-for="item in statusCode">
+                        <td>{{ item.statusCode }}</td>
+                        <td>{{ item.times }}</td>
+                        <td>{{ item.percent }}%</td>
+                    </tr>
+                </table>
 
-            <h2>蜘蛛</h2>
-            <table>
-                <tr>
-                    <th>类型</th>
-                    <th>访问次数</th>
-                    <!-- <th>比例</th> -->
-                </tr>
-                <tr v-for="item in spider">
-                    <td>{{ item.name | spiderName }}</td>
-                    <td>{{ item.times }}</td>
-                    <!-- <td>{{ item.percent }}%</td> -->
-                </tr>
-            </table>
+                <h2>蜘蛛</h2>
+                <table>
+                    <tr>
+                        <th>类型</th>
+                        <th>访问次数</th>
+                        <!-- <th>比例</th> -->
+                    </tr>
+                    <tr v-for="item in spider">
+                        <td>{{ item.name | spiderName }}</td>
+                        <td>{{ item.times }}</td>
+                        <!-- <td>{{ item.percent }}%</td> -->
+                    </tr>
+                </table>
 
-            <h2>请求方法</h2>
-            <table>
-                <tr>
-                    <th>请求方法</th>
-                    <th>访问次数</th>
-                    <th>比例</th>
-                </tr>
-                <tr v-for="item in topMethod">
-                    <td>{{ item.method }}</td>
-                    <td>{{ item.times }}</td>
-                    <td>{{ item.percent }}%</td>
-                </tr>
-            </table>
+                <h2>请求方法</h2>
+                <table>
+                    <tr>
+                        <th>请求方法</th>
+                        <th>访问次数</th>
+                        <th>比例</th>
+                    </tr>
+                    <tr v-for="item in topMethod">
+                        <td>{{ item.method }}</td>
+                        <td>{{ item.times }}</td>
+                        <td>{{ item.percent }}%</td>
+                    </tr>
+                </table>
 
-            <h2>IP top 10</h2>
-            <table>
-                <tr>
-                    <th>IP</th>
-                    <th>访问次数</th>
-                    <th>比例</th>
-                </tr>
-                <tr v-for="item in topIp">
-                    <td>{{ item.ip }}</td>
-                    <td>{{ item.times }}</td>
-                    <td>{{ item.percent }}%</td>
-                </tr>
-            </table>
-        </ui-article>
+                <h2>IP top 10</h2>
+                <table>
+                    <tr>
+                        <th>IP</th>
+                        <th>访问次数</th>
+                        <th>比例</th>
+                    </tr>
+                    <tr v-for="item in topIp">
+                        <td>{{ item.ip }}</td>
+                        <td>{{ item.times }}</td>
+                        <td>{{ item.percent }}%</td>
+                    </tr>
+                </table>
+            </ui-article>
 
-        <div class="ui-loading" v-if="loading">
-            <ui-circular-progress :size="24"/>
+            <div class="ui-loading" v-if="loading">
+                <ui-circular-progress :size="24"/>
+            </div>
+            <div v-if="error">{{ error }}</div>
         </div>
-        <div v-if="error">{{ error }}</div>
     </my-page>
 </template>
 

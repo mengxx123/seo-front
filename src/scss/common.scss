@@ -16,9 +16,6 @@
     padding: 40px 0;
 }
 
-.ui-page-body {
-    -webkit-overflow-scrolling : touch;
-}
 .ui-file-button{
     position: absolute;
     left: 0;
@@ -27,3 +24,9 @@
     bottom: 0;
     opacity: 0;
 }
+.common-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 16px 16px 80px 16px;
+  }
+  

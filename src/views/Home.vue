@@ -1,6 +1,8 @@
 <template>
     <my-page title="SEO" :page="page">
-        <app-list :data="groups" />
+        <div class="common-container container">
+            <app-list :data="groups" />
+        </div>
     </my-page>
 </template>
 
