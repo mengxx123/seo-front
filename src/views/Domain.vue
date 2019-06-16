@@ -12,14 +12,17 @@
             <ui-article v-if="result">
                 <table>
                     <tr v-for="domain in domains">
-                        <th v-if="domain.registered === true">
+                        <th v-if="domain.registered">
                             <router-link :to="`/whois?data=` + domain.name">{{ domain.name }}</router-link>
                         </th>
-                        <th v-if="domain.registered === false">{{ domain.name }}</th>
+                        <th v-if="!domain.registered">{{ domain.name }}</th>
                         <td>
-                            <span v-if="domain.loading">加载中...</span>
+                            <span v-if="domain.loading">查询中...</span>
                             <ui-badge content="已注册" color="#777" v-if="domain.registered === true" />
                             <ui-badge content="未注册" color="#5cb85c" v-if="domain.registered === false" />
+                        </td>
+                        <td>
+                            <a :href="'http://' + domain.name" target="_blank">访问</a>
                         </td>
                     </tr>
                 </table>
@@ -66,11 +69,13 @@
                 selected: ['com', 'cn', 'net', 'top', 'org', 'wang', 'vip'],
                 page: {
                     menu: [
-                        // {
-                        //     type: 'icon',
-                        //     icon: 'help',
-                        //     to: '/whois/help'
-                        // }
+                        {
+                            type: 'icon',
+                            icon: 'help',
+                            href: 'https://project.yunser.com/products/f87e41c08c5a11e9ae7d41b334f9f571',
+                            target: '_blank',
+                            title: '帮助'
+                        }
                     ]
                 }
             }
